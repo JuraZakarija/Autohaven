@@ -183,3 +183,8 @@ ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
+
+try:
+    from .local_settings import *
+except ImportError:
+    pass
