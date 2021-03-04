@@ -1,0 +1,189 @@
+{% extends '_base.html' %} 
+
+{% load humanize %}
+
+{% block title %} | {{listing.title}}{% endblock title %}
+
+{% block content %} 
+
+<!-- Listing -->
+<div class="container bg-white text-dark p-3 shadow">
+
+    <!-- Breadcrumb -->
+    <section id="bc">
+      <div class="container">
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="{% url 'home' %}">Naslovna</a>
+            </li>
+            <li class="breadcrumb-item">
+              <a href="{% url 'listings' %}">Oglasi</a>
+            </li>
+            <li class="breadcrumb-item active">{{ listing.title }}</li>
+          </ol>
+        </nav>
+      </div>
+    </section>
+
+    <section id="listing">
+      <div class="container">
+        <a href="{% url 'listings' %}" class="btn btn-light mb-4">Povratak na oglase</a>
+        <div class="row">
+          <div class="col-md-9">
+            <!-- Home Main Image -->
+            <a href="{{ listing.photo_main.url }}" data-lightbox="listing-images">
+              <img src="{{ listing.photo_main.url }}" class="img-main img-fluid mb-3">
+            </a>
+            <!-- Thumbnails -->
+            <div class="row mb-3 thumbs d-none d-md-flex">
+              {% if listing.photo_1 %}
+              <div class="col-md-2">
+                <a href="{{ listing.photo_1.url }}" data-lightbox="listing-images">
+                  <img src="{{ listing.photo_1.url }}" class="img-fluid">
+                </a>
+              </div>
+              {% endif %}
+              {% if listing.photo_2 %}
+              <div class="col-md-2">
+                <a href="{{ listing.photo_2.url }}" data-lightbox="listing-images">
+                  <img src="{{ listing.photo_2.url }}" class="img-fluid">
+                </a>
+              </div>
+              {% endif %}
+              {% if listing.photo_3 %}
+              <div class="col-md-2">
+                <a href="{{ listing.photo_3.url }}" data-lightbox="listing-images">
+                  <img src="{{ listing.photo_3.url }}" class="img-fluid">
+                </a>
+              </div>
+              {% endif %}
+              {% if listing.photo_4 %}
+              <div class="col-md-2">
+                <a href="{{ listing.photo_4.url }}" data-lightbox="listing-images">
+                  <img src="{{ listing.photo_4.url }}" class="img-fluid">
+                </a>
+              </div>
+              {% endif %}
+              {% if listing.photo_5 %}
+              <div class="col-md-2">
+                <a href="{{ listing.photo_5.url }}" data-lightbox="listing-images">
+                  <img src="{{ listing.photo_5.url }}" class="img-fluid">
+                </a>
+              </div>
+              {% endif %}
+              {% if listing.photo_6 %}
+              <div class="col-md-2">
+                <a href="{{ listing.photo_6.url }}" data-lightbox="listing-images">
+                  <img src="{{ listing.photo_6.url }}" class="img-fluid">
+                </a>
+              </div>
+              {% endif %}
+            </div>
+
+  <!-- Contact information -->
+  </div>
+    <div class="col-md-3">
+      <h3>Kontakt informacije:</h3>
+      <table>
+        <tr>
+          <td class="p-2"><i class="fas fa-user"></i></td>
+          <td class="p-2">{{listing.author.username}}</td>
+        </tr>
+        <tr>
+          <td class="p-2"><i class="fas fa-phone"></i></td>
+          <td class="p-2">{{listing.author.phone}}</td>
+        </tr>
+        <tr>
+          <td class="p-2"><i class="fas fa-envelope"></i></td>
+          <td class="p-2">{{listing.author.email}}</td>
+        </tr>
+        <tr>
+          <td class="p-2"><i class="fas fa-map-marker-alt"></i></td>
+          <td class="p-2">{{listing.location}}</td>
+        </tr>
+      </table>
+      {% if user == listing.author %}     
+      <div class="text-center">
+        <a href="{% url 'listing-update' listing.slug %}" class="btn btn-sm btn-warning m-1" ><i class="fas fa-pencil-alt " data-toggle="tooltip" data-placement="bottom" title="Uredi oglas"></i></a>
+        <a href="" class="btn btn-sm btn-danger m-1" data-toggle="modal" data-target="#staticBackdrop"><i class="fas fa-trash-alt" data-toggle="tooltip" data-placement="bottom" title="Obriši oglas"></i></a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  <hr>
+  <span class="h2">{{ listing.title }}</span>
+  <hr>
+    <div class="container">
+      <div class="row">
+
+        <div class="col-md-3 text-center border">
+          <h3 class="pt-3">Cijena:</h3>
+          <i class="fas fa-coins fa-3x p-3 text-primary"></i>
+          <h4>{{listing.price | intcomma}} kn</h4>
+          <h4>~ {{listing.get_price_euros | intcomma}} €</h4>
+        </div>
+
+        <div class="col-md-3 text-center border">
+          <h3 class="p-3">Županija:</h3>
+          <i class="fas fa-map-marked-alt fa-3x p-3 text-primary"></i>
+          <h4 class="p-3">{{listing.county}}</h4>
+        </div>
+
+        <div class="col-md-3 text-center border">
+          <h3 class="p-3">Snaga:</h3>
+          <i class="fas fa-bolt fa-3x p-3 text-primary"></i>
+          <h4 class="p-3" data-toggle="tooltip" data-placement="bottom" title="{{ listing.get_power_in_horsepower}} KS">{{listing.power}} kW</h4>
+        </div>
+
+        <div class="col-md-3 text-center border">
+          <h3 class="p-3">Motor:</h3>
+          <i class="fas fa-gas-pump fa-3x p-3 text-primary"></i>
+          <h4 class="p-3">{{listing.engine}}</h4>
+        </div>
+      </div>
+    </div>
+
+  <table class="table text-dark mt-3">
+    <thead>
+      <tr>
+        <th colspan="2" class="h3">Osnovne informacije:</th>
+      </tr>
+    </thead>
+    <tbody class="h5">
+      <tr>
+        <td>Lokacija vozila</td>
+        <th>{{ listing.location }}</th>
+      </tr>
+      <tr>
+        <td>Marka automobila</td>
+        <th>{{ listing.make }}</th>
+      </tr>
+      <tr>
+        <td>Godina proizvodnje</td>
+        <th>{{ listing.year }}.</th>
+      </tr>
+      <tr>
+        <td>Prijeđeni kilometri</td>
+        <th>{{ listing.mileage }} km</th>
+      </tr>
+      <tr>
+        <td>Tip motora</td>
+        <th>{{ listing.engine }}</th>
+      </tr>
+      <tr>
+        <td>Snaga motora</td>
+        <th><span data-toggle="tooltip" data-placement="right" title="{{ listing.get_power_in_horsepower}} KS">{{ listing.power}} kW</span></th>
+      </tr>
+      <tr>
+        <td>Boja</td>
+        <th>{{ listing.color }}</th>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</div>
+
+{% include "listings/listing_confirm_delete.html" %}
+
+{% endblock content %}

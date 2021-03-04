@@ -1,0 +1,59 @@
+{% load static %}
+
+  <div
+    class="d-flex flex-column flex-md-row align-items-center p-2 mb-3 border-bottom shadow-sm bg-secondary"
+  >
+    <a class="h5 px-3 pt-1" href="{% url 'home' %}">AutoHaven</a>
+    <a class="h5 px-3 pt-1" href="{% url 'listings' %}">Oglasi</a>
+    <a class="ml-md-auto text-primary h5 px-3 pt-1" href="{% url 'about' %}">O nama</a>
+    <nav class="my-md-0 mr-md-3 pt-1">
+      {% if user.is_authenticated %}
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a
+            class="nav-link dropdown-toggle h5"
+            href="#"
+            id="userMenu"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            {{ user.username }}
+          </a>
+          <div
+            class="dropdown-menu dropdown-menu-right"
+            aria-labelledby="userMenu"
+          > 
+            <a class="dropdown-item" href="{% url 'user-profile' %}"
+            >Moj profil</a>
+            <div class="dropdown-divider"></div>
+
+            <a class="dropdown-item" href="{% url 'account_change_password' %}"
+              >Promjeni lozinku</a>
+            <div class="dropdown-divider"></div>
+
+            <a class="dropdown-item" href="{% url 'listing-create' %}"
+            >Predaj oglas</a>
+            <div class="dropdown-divider"></div>
+
+            <a class="dropdown-item" href="{% url 'user-listings' user.username %}"
+            >Moji oglasi</a>
+            <div class="dropdown-divider"></div>
+            
+            <a class="dropdown-item" href="{% url 'account_logout' %}"
+              >Odjavi se</a>
+          </div>
+        </li>
+      </ul>
+      {% else %}
+      <form class="form-inline ml-auto">
+        <a href="{% url 'account_login' %}" class="btn btn-outline-primary"
+          >Prijavi se</a
+        >
+        <a href="{% url 'account_signup' %}" class="btn btn-primary mx-2"
+          >Registriraj se</a
+        >
+      </form>
+      {% endif %}
+    </nav>
+  </div>

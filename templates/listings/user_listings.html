@@ -1,0 +1,40 @@
+{% extends '_base.html' %} 
+
+{% load humanize %}
+
+{% block content %}
+
+<div class="container text-dark bg-white mb-3 shadow text-center">
+  <span class="h3">{{ listings.count }} oglasa</span>
+</div>
+
+{% for listing in listings %}
+
+<div class="container text-dark bg-white mb-3 shadow">
+  <div class="row"> 
+    <div class="col-md-4 px-0">
+      <img src="{{listing.photo_main.url}}" class="img-fluid img-thumbnail">
+    </div>
+    <div class="col-md-5">
+      <h4 class="p-3"><a href="{{ listing.get_absolute_url }}">{{listing.title}}</a></h4>
+      <ul class="list-group">
+        <li class="list-group-item text-dark bg-white py-0">Lokacija: {{listing.location}}</li>
+        <li class="list-group-item text-dark bg-white py-0">Prijeđeni kilometri: {{listing.mileage | intcomma }} km</li>
+        <li class="list-group-item text-dark bg-white py-0">Godište: {{listing.year}}.</li>
+        <li class="list-group-item text-dark bg-white py-2 small">Oglas objavljen: {{listing.created | date:"d. m. Y."}}</li>
+        
+      </ul>
+    </div>
+    <div class="col-md-3 py-3 text-center">
+      <h4 class="py-1">Cijena:</h4>
+      <h4 class="py-1">{{ listing.price | intcomma }} kn</h4>
+      <h4 class="py-1">~{{ listing.get_price_euros | intcomma }} €</h4>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+<!-- Pagination -->
+{% include "partials/pagination.html" %}
+
+{% endblock content %}
